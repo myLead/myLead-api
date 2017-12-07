@@ -36,9 +36,10 @@ class UsuarioView(MethodView):
         return jsonify(res)
  
     def post(self):
-        nome = request.form.get("nome")
-        email = request.form.get("email")
-        senha = request.form.get("senha")
+        content = request.get_json()
+        nome = content["nome"]
+        email = content["email"]
+        senha = content["senha"]
         usuario = Usuario(nome, email, senha)
         db.session.add(usuario)
         db.session.commit()
