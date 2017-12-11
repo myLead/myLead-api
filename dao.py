@@ -5,4 +5,4 @@ class UsuarioDao():
 
     def criarUsuario():
         user = User(us)
-        czxczzx 
+        
