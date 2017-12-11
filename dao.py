@@ -4,5 +4,5 @@ from model import *
 class UsuarioDao():
 
     def criarUsuario():
-        user = User()
-        
+        user = User(us)
+        czxczzx 

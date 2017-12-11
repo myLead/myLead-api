@@ -61,6 +61,8 @@ def create_user():
     
 
     data = request.get_json()
+
+
     teste = data['password']
     passw = hashlib.md5()
     passw.update(teste.encode('utf-8'))
