@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from model import *
 import hashlib
 import uuid
@@ -18,7 +18,9 @@ def create():
     db.create_all()
     return 'Tablelas criadas'
 
-
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 @app.route('/user', methods=['GET'])
 def get_all_users():
@@ -56,7 +58,7 @@ def get_one_user(id):
 
     return jsonify({'user' : user_data})
 
-@app.route('/user', methods =['post'])
+@app.route('/user', methods =['POST'])
 def create_user():
     
 
