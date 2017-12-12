@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, render_template
-from  dbhelp import Compra
+from  dbhelp import *
 import hashlib
 
 app = Flask(__name__)
@@ -69,7 +69,7 @@ def promote_user():
 @app.route('/user/<id>', methods = ['DELETE'])
 def delete_user(id):
 
-    user = Usuario.query.filter_by(id_usuario=id).first()
+    user = Usuario.query.filter_by(id_usuario=id ).first()
     if not user:
         return jsonify({'messege' : 'No user found"'})
     db.session.delete(user)
