@@ -1,16 +1,13 @@
 from flask import Flask, request, jsonify, render_template
 from model import *
 import hashlib
-import uuid
-from werkzeug.security import generate_password_hash, check_password_hash
-from sqlalchemy import ForeignKey
-from sqlalchemy.orm import relationship
 
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'thisissecret'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:root@localhost/teste1'
-
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1234@localhost/testeApi'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://matyyaxexjsmlg:8107604602e55661da27d1cac9e0ab04651a87ac4e6846101ca391cb383199c3@ec2-107-20-176-7.compute-1.amazonaws.com:5432/de7q9p7jklnn70'
+app.debug = True
 db.init_app(app)
 
 @app.route('/create')
@@ -25,17 +22,18 @@ def index():
 @app.route('/user', methods=['GET'])
 def get_all_users():
 
-    users = User.query.all()
+    users = Usuario.query.all()
 
     output = []
 
     for user in users:
         user_data = {}
-        user_data['id'] = user.id
-        user_data['public_id'] = user.public_id
-        user_data['name'] = user.name
-        user_data['password'] = user.password
-        user_data['admin'] = user.admin
+        user_data['id_usuario'] = user.id_usuario
+        user_data['nome'] = user.nome
+        user_data['email_usuario'] = user.email_usuario
+        user_data['senha_usuario'] = user.senha_usuario
+        user_data['cnpj'] = user.cnpj
+        user_data['create_at'] = user.create_at
         output.append(user_data)
 
     return jsonify({'users' : output})
@@ -45,16 +43,18 @@ def get_one_user(id):
 
     
 
-    user = User.query.filter_by(id=id).first()
+    user = Usuario.query.filter_by(id_usuario=id).first()
 
     if not user:
         return jsonify({'messege' : 'No user found!'})
+    
     user_data = {}
-    user_data['id'] = user.id
-    user_data['public_id'] = user.public_id
-    user_data['name'] = user.name
-    user_data['password'] = user.password
-    user_data['admin'] = user.admin
+    user_data['id_usuario'] = user.id_usuario
+    user_data['nome'] = user.nome
+    user_data['email_usuario'] = user.email_usuario
+    user_data['senha_usuario'] = user.senha_usuario
+    user_data['cnpj'] = user.cnpj
+    user_data['create_at'] = user.create_at
 
     return jsonify({'user' : user_data})
 
@@ -63,17 +63,14 @@ def create_user():
     
 
     data = request.get_json()
-    teste = data['password']
+
+    teste = data['senha_usuario']
+    print(teste)
     passw = hashlib.md5()
     passw.update(teste.encode('utf-8'))
     hash = passw.hexdigest()
     print(hash)
-    
-    
-
-    hashed_password = generate_password_hash(data['password'], method='sha256')
-
-    new_user = User(public_id=str(uuid.uuid4()), name=data['name'], password=hash, admin=data['admin'])
+    new_user = Usuario(nome=data['nome'], email_usuario = data['email_usuario'],senha_usuario=hash, cnpj=data['cnpj'])
     db.session.add(new_user)
     db.session.commit()
 
@@ -86,7 +83,7 @@ def promote_user():
 @app.route('/user/<id>', methods = ['DELETE'])
 def delete_user(id):
 
-    user = User.query.filter_by(id=id).first()
+    user = Usuario.query.filter_by(id_usuario=id).first()
     if not user:
         return jsonify({'messege' : 'No user found"'})
     db.session.delete(user)
