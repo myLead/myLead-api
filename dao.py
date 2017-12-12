@@ -4,5 +4,3 @@ from model import *
 class UsuarioDao():
 
     def criar():
-        usuario = 
-        
