@@ -2,9 +2,8 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
-from mylead import db
 
-
+db = SQLAlchemy()
 
 class Usuario(db.Model):
     __tablename__ = 'Usuario'
