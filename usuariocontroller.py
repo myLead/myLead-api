@@ -2,22 +2,23 @@ from flask import Flask, request, jsonify, render_template
 from  dbhelp import Usuario
 from flask_sqlalchemy import SQLAlchemy
 import hashlib
+from mylead import app, db
 
-app = Flask(__name__)
+# app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://matyyaxexjsmlg:8107604602e55661da27d1cac9e0ab04651a87ac4e6846101ca391cb383199c3@ec2-107-20-176-7.compute-1.amazonaws.com:5432/de7q9p7jklnn70'
-app.debug = True
-db = SQLAlchemy(app)
-db.init_app(app)
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://matyyaxexjsmlg:8107604602e55661da27d1cac9e0ab04651a87ac4e6846101ca391cb383199c3@ec2-107-20-176-7.compute-1.amazonaws.com:5432/de7q9p7jklnn70'
+# app.debug = True
+# db = SQLAlchemy(app)
+# db.init_app(app)
 
-@app.route('/create')
-def create():
-    db.create_all()
-    return 'Tablelas criadas'
+# @app.route('/create')
+# def create():
+#     db.create_all()
+#     return 'Tablelas criadas'
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+# @app.route('/')
+# def index():
+#     return render_template('index.html')
 
 @app.route('/user', methods=['GET'])
 def get_all_users():
@@ -117,7 +118,7 @@ def delete_user(id):
     return jsonify({'message' : 'User has been Deleted" '})
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# if __name__ == '__main__':
+#     app.run(debug=True)
     
 
