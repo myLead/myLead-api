@@ -1,35 +1,21 @@
 from flask import Flask, request, jsonify, render_template
-from model import *
+from  dbhelp import *
 import hashlib
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = 'thisissecret'
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1234@localhost/testeApi'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://matyyaxexjsmlg:8107604602e55661da27d1cac9e0ab04651a87ac4e6846101ca391cb383199c3@ec2-107-20-176-7.compute-1.amazonaws.com:5432/de7q9p7jklnn70'
-app.debug = True
-db.init_app(app)
 
-@app.route('/create')
-def create():
-    db.create_all()
-    return 'Tablelas criadas'
-
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-@app.route('/user', methods=['GET'])
+@app.route('/compra', methods=['GET'])
 def get_all_users():
 
-    users = Usuario.query.all()
+    compras = Compra.query.all()
 
     output = []
 
-    for user in users:
+    for compra in compras:
         user_data = {}
-        user_data['id_usuario'] = user.id_usuario
-        user_data['nome'] = user.nome
+        user_data['id_compra'] = compra.id_compra
+        user_data['data_compra'] = compra.data_compra
         user_data['email_usuario'] = user.email_usuario
         user_data['senha_usuario'] = user.senha_usuario
         user_data['cnpj'] = user.cnpj
@@ -83,7 +69,7 @@ def promote_user():
 @app.route('/user/<id>', methods = ['DELETE'])
 def delete_user(id):
 
-    user = Usuario.query.filter_by(id_usuario=id).first()
+    user = Usuario.query.filter_by(id_usuario=id ).first()
     if not user:
         return jsonify({'messege' : 'No user found"'})
     db.session.delete(user)
@@ -93,5 +79,5 @@ def delete_user(id):
 
 if __name__ == '__main__':
     app.run(debug=True)
-    db.create_all()
+    
 
