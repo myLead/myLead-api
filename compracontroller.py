@@ -2,7 +2,6 @@ from flask import Flask, request, jsonify, render_template
 from  dbhelp import *
 import hashlib
 
-app = Flask(__name__)
 
 
 @app.route('/compra', methods=['GET'])

@@ -3,7 +3,7 @@ from  dbhelp import Usuario
 from flask_sqlalchemy import SQLAlchemy
 import hashlib
 from mylead import app, db
-from controler.usuarioController import *
+from controler.usuariocontroller import *
 
 userController = UsuarioController()
 

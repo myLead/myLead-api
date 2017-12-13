@@ -12,5 +12,6 @@ class UsuarioDAO():
         usuarioexistente = Usuario.query.filter_by(
             email_usuario=email).first()
         return usuarioexistente
-    def delete_user(self, user):
+   
+    # def delete_user(self, user):
         
