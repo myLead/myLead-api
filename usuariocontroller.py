@@ -40,7 +40,7 @@ def get_one_user(id):
     user_data['cnpj'] = user.cnpj
     user_data['create_at'] = user.create_at
 
-    return jsonify({'user' : user_data})
+    return jsonify({'status':'success','message': 'Usuario encontrado','data' : user_data})
 
 @app.route('/user', methods =['POST'])
 def create_user():
