@@ -22,3 +22,22 @@ class UsuarioController():
         else:
             self.__userDAO.delete_user(usuarioexistente)
             return {'status': 'sussecc', 'message': 'Usuario deletado', 'data': {}}
+
+    def list_user(self):
+        listausuarios = self.__userDAO.list()
+
+        return listausuarios
+
+    def list_one_user(self, id):
+        listausuario = self.__userDAO.list_one_user(id)
+
+        return listausuario
+
+    def verify_user(self, senha, email):
+        
+        user = self.__userDAO.verify_user(senha, email)
+        
+        return user
+
+
+        
