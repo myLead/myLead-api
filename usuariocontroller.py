@@ -4,21 +4,6 @@ from flask_sqlalchemy import SQLAlchemy
 import hashlib
 from mylead import app, db
 
-# app = Flask(__name__)
-
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://matyyaxexjsmlg:8107604602e55661da27d1cac9e0ab04651a87ac4e6846101ca391cb383199c3@ec2-107-20-176-7.compute-1.amazonaws.com:5432/de7q9p7jklnn70'
-# app.debug = True
-# db = SQLAlchemy(app)
-# db.init_app(app)
-
-# @app.route('/create')
-# def create():
-#     db.create_all()
-#     return 'Tablelas criadas'
-
-# @app.route('/')
-# def index():
-#     return render_template('index.html')
 
 @app.route('/user', methods=['GET'])
 def get_all_users():
@@ -45,7 +30,7 @@ def get_one_user(id):
     user = Usuario.query.filter_by(id_usuario=id).first()
 
     if not user:
-        return jsonify({'messege' : 'No user found!'})
+        return jsonify({'status':'error','message': 'Usuário não encontrado', 'data': {}})
     
     user_data = {}
     user_data['id_usuario'] = user.id_usuario
@@ -76,9 +61,9 @@ def create_user():
     if not usuarioexistente:
         db.session.add(new_user)
         db.session.commit()
-        return jsonify({'message': 'New user created!'})
+        return jsonify({'status':'success','message': 'Usuario cadastrado', 'data': {}})
 
-    return jsonify({'message' : 'Usuario já cadastrado'})
+    return jsonify({'status':'error','message': 'Email ja cadastrado', 'data': {}})
 
 
 @app.route('/login', methods=['POST'])
@@ -112,13 +97,7 @@ def delete_user(id):
 
     user = Usuario.query.filter_by(id_usuario=id).first()
     if not user:
-        return jsonify({'message' : 'No user found"'})
+        return jsonify({'status':'error','message': 'Usuario não encontrado', 'data': {}})
     db.session.delete(user)
     db.session.commit()
-    return jsonify({'message' : 'User has been Deleted" '})
-
-
-# if __name__ == '__main__':
-#     app.run(debug=True)
-    
-
+    return jsonify({'status':'sussecc','message': 'Usuario deletado', 'data': {}})
