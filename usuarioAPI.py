@@ -1,9 +1,9 @@
 from flask import Flask, request, jsonify, render_template
-from  dbhelp import Usuario
+from  dbhelper import *
 from flask_sqlalchemy import SQLAlchemy
 import hashlib
 from mylead import app, db
-from controler.usuariocontroller import *
+from controller.usuariocontroller import *
 
 userController = UsuarioController()
 
@@ -86,15 +86,5 @@ def login():
 @app.route('/user/<id>', methods = ['DELETE'])
 def delete_user(id):
 
-    user = Usuario.query.filter_by(id_usuario=id).first()
-    if not user:
-        return jsonify({'message' : 'No user found"'})
-    db.session.delete(user)
-    db.session.commit()
-    return jsonify({'message' : 'User has been Deleted" '})
-
-
-# if __name__ == '__main__':
-#     app.run(debug=True)
-    
-
+    open_result = userController.delete_user(id)
+    return jsonify(open_result)

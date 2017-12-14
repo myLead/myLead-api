@@ -9,7 +9,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://matyyaxexjsmlg:8107604602e
 db = SQLAlchemy(app)
 
 from usuarioAPI import *
-from dbhelp import * 
+from dbhelper import * 
 
 
 if __name__ == '__main__':
