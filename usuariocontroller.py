@@ -30,7 +30,7 @@ def get_one_user(id):
     user = Usuario.query.filter_by(id_usuario=id).first()
 
     if not user:
-        return jsonify({'status':'error','message': 'Usuário não encontrado', 'data': {}})
+        return jsonify({'status':'error','message': 'Usuario nao encontrado', 'data': {}})
     
     user_data = {}
     user_data['id_usuario'] = user.id_usuario
@@ -90,14 +90,14 @@ def login():
     user_data['email_usuario'] = user.email_usuario
     user_data['senha_usuario'] = user.senha_usuario
 
-    return jsonify({'status': 'success', 'data': user_data, "message": "Uma ocorrência encontrada"})
+    return jsonify({'status': 'success', 'data': user_data, "message": "Uma ocorrencia encontrada"})
 
 @app.route('/user/<id>', methods = ['DELETE'])
 def delete_user(id):
 
     user = Usuario.query.filter_by(id_usuario=id).first()
     if not user:
-        return jsonify({'status':'error','message': 'Usuario não encontrado', 'data': {}})
+        return jsonify({'status':'error','message': 'Usuario nao encontrado', 'data': {}})
     db.session.delete(user)
     db.session.commit()
     return jsonify({'status':'sussecc','message': 'Usuario deletado', 'data': {}})
