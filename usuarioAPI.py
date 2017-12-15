@@ -48,15 +48,7 @@ def login():
 
     user = userController.verify_user(hash, email_usuario)
 
-    # if not user:
-    #     return jsonify({'status':'error','message': 'Senha ou email invalidos', 'ata': {}})
-    
-    # user_data = {}
-    # user_data['nome'] = user.nome
-    # user_data['email_usuario'] = user.email_usuario
-    # user_data['senha_usuario'] = user.senha_usuario
-
-    return jsonify({'status': 'success', 'data': user, "message": "Uma ocorrência encontrada"})
+    return jsonify(user)
 
 @app.route('/user/<id>', methods = ['DELETE'])
 def delete_user(id):
