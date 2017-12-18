@@ -12,16 +12,21 @@ def get_all_users():
 
     users = userController.list_user()
 
-    return jsonify({'users' : users})
+    if users == None:
+        return jsonify({'status': 'error', 'message': 'Sem ocorrencias', 'data': {}})
+    else:       
+        return jsonify({'status': 'success', 'message': 'Lista de usuarios', 'data': users})
 
 @app.route('/user/<id>' , methods = ['GET'])
 def get_one_user(id):
 
     user = userController.list_one_user(id)
+    if user == None:
+        return jsonify({'status': 'error', 'message': 'Sem ocorrencias', 'data': {}})
+    else:       
+        return jsonify({'status': 'success', 'message': 'Usuario encontrado', 'data': user})
 
-    return jsonify({'user' : user})
-
-@app.route('/user', methods =['POST'])
+@app.route('/user', methods =['POST']) 
 def create_user():
     
     data = request.get_json()
@@ -33,7 +38,13 @@ def create_user():
     
     new_user = Usuario(nome=data['nome'], email_usuario = data['email_usuario'],senha_usuario=hash, cnpj=data['cnpj'])
     oper_result = userController.create_user(new_user)
-    return jsonify(oper_result)
+
+    if oper_result == None:
+    
+        return jsonify({'status': 'success', 'message': 'Usuario cadastrado', 'data': {}})
+
+    else:
+        return jsonify({'status': 'error', 'message': 'Email ja cadastrado', 'data': {} })
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -47,11 +58,18 @@ def login():
     hash = passw.hexdigest()
 
     user = userController.verify_user(hash, email_usuario)
-
-    return jsonify(user)
+    
+    if user == None:
+        return jsonify({'status': 'error', "message": "Senha ou email incorretos", 'data': {}})
+    else:    
+        return jsonify({'status': 'success', "message": "Uma ocorrencia encontrada", 'data': user})
 
 @app.route('/user/<id>', methods = ['DELETE'])
 def delete_user(id):
 
     open_result = userController.delete_user(id)
-    return jsonify(open_result)
+
+    if open_result == None:
+        return jsonify({'status': 'error', 'message': 'Usuario nao encontrado', 'data': {}})
+    else:
+        return jsonify({'status': 'success', 'message': 'Usuario deletado', 'data': {}})
