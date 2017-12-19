@@ -11,20 +11,47 @@ userController = UsuarioController()
 def get_all_users():
 
     users = userController.list_user()
-
+   
     if users == None:
+
         return jsonify({'status': 'error', 'message': 'Sem ocorrencias', 'data': {}})
-    else:       
-        return jsonify({'status': 'success', 'message': 'Lista de usuarios', 'data': users})
+
+    else:
+
+        output = []
+
+        for user in users:
+            user_data = {}
+            user_data['id_usuario'] = user.id_usuario
+            user_data['nome'] = user.nome
+            user_data['email_usuario'] = user.email_usuario
+            user_data['senha_usuario'] = user.senha_usuario
+            user_data['cnpj'] = user.cnpj
+            user_data['create_at'] = user.create_at
+            output.append(user_data)
+
+        return jsonify({'status': 'success', 'message': 'Lista de usuarios', 'data': output})
+  
 
 @app.route('/user/<id>' , methods = ['GET'])
 def get_one_user(id):
 
     user = userController.list_one_user(id)
+    
     if user == None:
         return jsonify({'status': 'error', 'message': 'Sem ocorrencias', 'data': {}})
-    else:       
-        return jsonify({'status': 'success', 'message': 'Usuario encontrado', 'data': user})
+
+    else:
+
+        user_data = {}
+        user_data['id_usuario'] = user.id_usuario
+        user_data['nome'] = user.nome
+        user_data['email_usuario'] = user.email_usuario
+        user_data['senha_usuario'] = user.senha_usuario
+        user_data['cnpj'] = user.cnpj
+        user_data['create-at'] = user.create_at
+
+        return jsonify({'status': 'success', 'message': 'Usuario encontrado', 'data': user_data})
 
 @app.route('/user', methods =['POST']) 
 def create_user():
@@ -47,6 +74,7 @@ def create_user():
         return jsonify({'status': 'error', 'message': 'Email ja cadastrado', 'data': {} })
 
 @app.route('/login', methods=['POST'])
+
 def login():
     data = request.get_json()
 
@@ -60,9 +88,16 @@ def login():
     user = userController.verify_user(hash, email_usuario)
     
     if user == None:
-        return jsonify({'status': 'error', "message": "Senha ou email incorretos", 'data': {}})
-    else:    
-        return jsonify({'status': 'success', "message": "Uma ocorrencia encontrada", 'data': user})
+            return jsonify({'status': 'error', "message": "Senha ou email incorretos", 'data': {}})
+        
+    else:
+        user_data = {}
+        user_data['id_usuario'] = user.id_usuario
+        user_data['nome'] = user.nome
+        user_data['email_usuario'] = user.email_usuario
+
+        return  jsonify({'status': 'success', "message": "Uma ocorrencia encontrada", 'data': user_data})
+   
 
 @app.route('/user/<id>', methods = ['DELETE'])
 def delete_user(id):
@@ -73,3 +108,4 @@ def delete_user(id):
         return jsonify({'status': 'error', 'message': 'Usuario nao encontrado', 'data': {}})
     else:
         return jsonify({'status': 'success', 'message': 'Usuario deletado', 'data': {}})
+

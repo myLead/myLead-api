@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from mylead import db
-from dbhelper import Usuario
+from dbhelper import *
 
 class UsuarioDAO():
 
