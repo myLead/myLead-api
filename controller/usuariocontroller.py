@@ -5,7 +5,8 @@ class UsuarioController():
     def __init__(self):
         self.__userDAO = UsuarioDAO()
 
-    
+    #CONECTAR A CRAÇÃO DAS TABELAS PLANO E COMPRA JUNTO 
+    #COM A TABELAD DE USUARO
     def create_user(self, user):
 
         usuarioexistente = self.__userDAO.get_user_by_email(user.email_usuario)
