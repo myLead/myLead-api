@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import desc
 from mylead import db
 from dbhelper import *
 
@@ -39,5 +40,11 @@ class UsuarioDAO():
         user = Usuario.query.filter_by(senha_usuario = senha, email_usuario = email).first()
         
         return user
+
+    def getLastUser(self):
+
+        user = Usuario.query.order_by(desc(Usuario.id_usuario)).first()
+        return user.id_usuario       
+
 
             

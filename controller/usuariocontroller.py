@@ -13,8 +13,8 @@ class UsuarioController():
 
         if usuarioexistente == None:
     
-            self.__userDAO.create_user(user)
-            return usuarioexistente
+            user = self.__userDAO.create_user(user)
+            return user
 
         else:
             return usuarioexistente
@@ -47,6 +47,10 @@ class UsuarioController():
      
         user = self.__userDAO.verify_user(senha, email)
         
+        return user
+
+    def getLast(self):
+        user = self.__userDAO.getLastUser()
         return user
 
 

@@ -4,8 +4,10 @@ from flask_sqlalchemy import SQLAlchemy
 import hashlib
 from mylead import app, db
 from controller.usuariocontroller import *
+from controller.compracontroller import *
 
 userController = UsuarioController()
+compraController = CompraController()
 
 @app.route('/user', methods=['GET'])
 def get_all_users():
@@ -66,8 +68,13 @@ def create_user():
     new_user = Usuario(nome=data['nome'], email_usuario = data['email_usuario'],senha_usuario=hash, cnpj=data['cnpj'])
     oper_result = userController.create_user(new_user)
 
+    essa condicao 
     if oper_result == None:
-    
+
+        lastUser = userController.getLast()
+        new_order = Compra(id_usuario=lastUser, id_plano= data['id_plano'])
+        order = compraController.createComopra(new_order)
+
         return jsonify({'status': 'success', 'message': 'Usuario cadastrado', 'data': {}})
 
     else:

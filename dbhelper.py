@@ -23,6 +23,7 @@ class Compra(db.Model):
     data_vencimento = db.Column(db.Date())
     id_usuario = db.Column(db.INT(), ForeignKey('Usuario.id_usuario'), nullable=False)
     id_plano = db.Column(db.INT(), ForeignKey('Plano.id_plano'), nullable=False)
+    id_Usuario = relationship("Usuario", cascade="save-update, marge, delete") 
 
 class Plano(db.Model):
     __tablename__ = 'Plano'
