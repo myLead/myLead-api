@@ -5,9 +5,11 @@ import hashlib
 from mylead import app, db
 from controller.usuariocontroller import *
 from controller.compracontroller import *
+from utils import Dates
 
 userController = UsuarioController()
 compraController = CompraController()
+date = Dates()
 
 @app.route('/user', methods=['GET'])
 def get_all_users():
@@ -68,11 +70,15 @@ def create_user():
     new_user = Usuario(nome=data['nome'], email_usuario = data['email_usuario'],senha_usuario=hash, cnpj=data['cnpj'])
     oper_result = userController.create_user(new_user)
 
-    essa condicao 
+    # essa condicao garantirá que ao salvar um usuario ele levará consigo 
+    # as informações referentes a compra do usuario como tipo de plano e id do usuario
+
     if oper_result == None:
 
+        today = date.getDateToday()
+        vencimento = date.getDateFuture()
         lastUser = userController.getLast()
-        new_order = Compra(id_usuario=lastUser, id_plano= data['id_plano'])
+        new_order = Compra(data_compra = today, data_vencimento = vencimento, id_usuario=lastUser, id_plano= data['id_plano'])
         order = compraController.createComopra(new_order)
 
         return jsonify({'status': 'success', 'message': 'Usuario cadastrado', 'data': {}})
