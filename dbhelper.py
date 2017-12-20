@@ -19,10 +19,11 @@ class Usuario(db.Model):
 class Compra(db.Model):
     __tablename__ = 'Compra'
     id_compra = db.Column(db.Integer, primary_key=True)
-    data_compra = db.Column(db.DateTime(), index=True, default=datetime.now)
+    data_compra = db.Column(db.Date())
     data_vencimento = db.Column(db.Date())
-    id_usuario = db.Column(db.INT(), ForeignKey('Usuario.id_usuario'), nullable=False)
-    id_plano = db.Column(db.INT(), ForeignKey('Plano.id_plano'), nullable=False)
+    id_usuario = db.Column(db.INT(), nullable=False)
+    id_plano = db.Column(db.INT(), nullable=False)
+    # id_Usuario = relationship("Usuario", cascade="save_update") 
 
 class Plano(db.Model):
     __tablename__ = 'Plano'
