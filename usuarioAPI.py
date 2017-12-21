@@ -109,7 +109,7 @@ def login():
         user_data['nome'] = user.nome
         user_data['email_usuario'] = user.email_usuario
 
-        return  jsonify({'status': 'success', "message": "Uma ocorrencia encontrada", 'data': user_data})
+        return  jsonify({'status': 'success', "message": "Usuário Logado com Sucesso", 'data': user_data})
    
 
 @app.route('/user/<id>', methods = ['DELETE'])
