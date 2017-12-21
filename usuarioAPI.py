@@ -5,11 +5,11 @@ import hashlib
 from mylead import app, db
 from controller.usuariocontroller import *
 from controller.compracontroller import *
-from utils import Dates
+from utils import Utils
 
 userController = UsuarioController()
 compraController = CompraController()
-date = Dates()
+utils = Utils()
 
 @app.route('/user', methods=['GET'])
 def get_all_users():
@@ -75,8 +75,8 @@ def create_user():
 
     if oper_result == None:
 
-        today = date.getDateToday()
-        vencimento = date.getDateFuture()
+        today = utils.getDateToday()
+        vencimento = utils.getDateFuture()
         lastUser = userController.getLast()
         new_order = Compra(data_compra = today, data_vencimento = vencimento, id_usuario=lastUser, id_plano= data['id_plano'])
         order = compraController.createComopra(new_order)

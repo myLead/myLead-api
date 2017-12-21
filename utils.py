@@ -1,6 +1,6 @@
 from datetime import date
 
-class Dates():
+class Utils():
 
     def getDateToday(self):
 
