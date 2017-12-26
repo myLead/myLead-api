@@ -11,7 +11,7 @@ userController = UsuarioController()
 compraController = CompraController()
 utils = Utils()
 
-@app.route('/user', methods=['GET'])
+@app.route('/users', methods=['GET'])
 def get_all_users():
 
     users = userController.list_user()
@@ -57,7 +57,7 @@ def get_one_user(id):
 
         return jsonify({'status': 'success', 'message': 'Usuario encontrado', 'data': user_data})
 
-@app.route('/user', methods =['POST']) 
+@app.route('/users', methods =['POST']) 
 def create_user():
     
     data = request.get_json()
