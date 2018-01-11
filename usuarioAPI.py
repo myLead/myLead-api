@@ -1,4 +1,4 @@
-from flask                        import Flask, request, jsonify, render_template
+from flask                        import Flask, request, jsonify, session, g
 from dbhelper                     import *
 from flask_sqlalchemy             import SQLAlchemy
 from mylead                       import app, db
@@ -100,16 +100,35 @@ def login():
     user = userController.verify_user(hash, email_usuario)
     
     if user == None:
-            return jsonify({'status': 'error', "message": "Senha ou email incorretos", 'data': {}})
+        return jsonify({'status': 'error', "message": "Senha ou email incorretos", 'data': {}})
         
     else:
         user_data                  = {}
         user_data['id_usuario']    = user.id_usuario
         user_data['nome']          = user.nome
         user_data['email_usuario'] = user.email_usuario
-
+        session['user'] = str(user.id_usuario)
         return  jsonify({'status': 'success', "message": "Usuário Logado com Sucesso", 'data': user_data})
-   
+
+
+@app.before_request
+def before_request():
+    g.user = None
+    if 'user' in session:
+        g.user = session['user']
+
+@app.route('/getsession', methods = ['GET'])
+def getsession():
+    if 'user' in session:
+        return session['user']
+
+    return 'Not logged in!'
+
+
+@app.route('/logout')
+def logout():
+    session.pop('user', None)
+    return 'Logout!'
 
 @app.route('/user/<id>', methods = ['DELETE'])
 def delete_user(id):
@@ -120,3 +139,7 @@ def delete_user(id):
     else:
         return jsonify({'status': 'success', 'message': 'Usuario deletado', 'data': {}})
 
+@app.route('/upload', methods = ['POST'])
+def upload():
+    recebendo = request.file['file.csv']
+    file = utils.csvToJson(recebendo)

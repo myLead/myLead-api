@@ -1,4 +1,6 @@
 from datetime import date
+import csv
+import json
 
 class Utils():
 
@@ -16,3 +18,13 @@ class Utils():
     def getDateDiff(self):
         diff = self.getDateFuture() - self.getDateToday()
         return diff
+
+    def csvToJson(self, file):
+        csvfile = open(file, 'r', encoding='utf-8')
+        reader = csv.DictReader(csvfile)
+
+        lista = []
+        for row in reader:
+            x = (json.dumps(row, indent=4, ensure_ascii=False))
+            lista.append(x)
+        return (', '.join(lista))
