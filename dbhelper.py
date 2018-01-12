@@ -32,6 +32,16 @@ class Plano(db.Model):
     valor           = db.Column(db.TEXT())
 
 
+class CsvFile(db.Model):
+    __tablename__ = 'CsvFile'
+    id_requisicao = db.Column(db.Integer, primary_key=True)
+    id_usuario = db.Column(db.INT(), nullable=False)
+    csvjson = db.Column(db.TEXT())
+    csvblob = db.Column(db.LargeBinary)
+    create_at = db.Column(db.DateTime(), index=True, default=datetime.now)
+
+
+
 # class Pessoa(db.Model):
 #     __tablename__    = 'Pessoa'
 #     id_pessoa        = db.Column(db.Integer,     primary_key = True)

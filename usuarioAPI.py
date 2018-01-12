@@ -4,12 +4,14 @@ from flask_sqlalchemy             import SQLAlchemy
 from mylead                       import app, db
 from controller.usuariocontroller import *
 from controller.compracontroller  import *
+from controller.csvcontroller import *
 from utils                        import Utils
 
 import hashlib
 
 userController   = UsuarioController()
 compraController = CompraController()
+csvController =  CsVController()
 utils            = Utils()
 
 @app.route('/users', methods=['GET'])
@@ -67,18 +69,18 @@ def create_user():
     hash = passw.hexdigest()
     
     new_user    = Usuario(nome = data['nome'], email_usuario = data['email_usuario'], senha_usuario = hash, cnpj = data['cnpj'])
-    oper_result = userController.create_user(new_user)
-
-    # essa condicao garantirá que ao salvar um usuario ele levará consigo 
-    # as informações referentes a compra do usuario como tipo de plano e id do usuario
-
-    if oper_result == None:
+    verificarEmail = userController.verify_user_by_email(data['email_usuario'])
+    if verificarEmail == None:
+        
+        saveUser = userController.create_user(new_user)
 
         today      = utils.getDateToday()
         vencimento = utils.getDateFuture()
         lastUser   = userController.getLast()
         new_order  = Compra(data_compra = today, data_vencimento = vencimento, id_usuario = lastUser, id_plano = data['id_plano'])
         order      = compraController.createComopra(new_order)
+        # essa condicao garantirá que ao salvar um usuario ele levará consigo
+        # as informações referentes a compra do usuario como tipo de plano e id do usuario
 
         return jsonify({'status': 'success', 'message': 'Usuario cadastrado', 'data': {}})
 
@@ -125,7 +127,7 @@ def getsession():
     return 'Not logged in!'
 
 
-@app.route('/logout')
+@app.route('/logout', methods=['GET'])
 def logout():
     session.pop('user', None)
     return 'Logout!'
@@ -141,5 +143,34 @@ def delete_user(id):
 
 @app.route('/upload', methods = ['POST'])
 def upload():
-    recebendo = request.file['file.csv']
-    file = utils.csvToJson(recebendo)
+    file = request.files['input.csv']
+    converter = utils.csvToJson(file)
+    id_usuario =int(self.getsession())
+    newCsv = CsvFile(id_usuario = id_usuario, csvjson = converter, csvblob = file.read())
+    upLoadFile = csvController.createBaseCsv(newCsv)
+
+
+@app.route('/upload2', methods=['POST'])
+def upload2():
+    file = request.files['input.csv']
+    converter = utils.csvToJson2(file)
+    id_usuario = int(self.getsession())
+    newCsv = CsvFile(id_usuario=id_usuario,
+                     csvjson=converter, csvblob=file.read())
+    upLoadFile = csvController.createBaseCsv(newCsv)
+    
+# stub procurar isso
+
+def upload_local_file(file):
+    csvfile = open('leads_empresa1.csv', 'r', encoding='utf-8')
+    save_file(csvfile)
+
+
+@app.route('/test', methods=['GET'])
+def save_file():
+    file = 'leads_empresa1.csv'
+    json_file = utils.csvToJson(file)
+
+    return jsonify (json_file)
+
+    #salvar no banco

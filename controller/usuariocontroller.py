@@ -9,14 +9,10 @@ class UsuarioController():
     #CONECTAR A CRAÇÃO DAS TABELAS PLANO E COMPRA JUNTO 
     #COM A TABELAD DE USUARO
     def create_user(self, user):
-        usuarioexistente = self.__userDAO.get_user_by_email(user.email_usuario)
+        new_user = self.__userDAO.create_user(user)
+        return new_user
 
-        if usuarioexistente == None:
-            user = self.__userDAO.create_user(user)
-            return user
-
-        else:
-            return usuarioexistente
+      
 
 
     def delete_user(self, id):
@@ -41,6 +37,10 @@ class UsuarioController():
 
     def verify_user(self, senha, email):
         user = self.__userDAO.verify_user(senha, email)
+        return user
+
+    def verify_user_by_email(self, email):
+        user = self.__userDAO.get_user_by_email(email)
         return user
 
 
