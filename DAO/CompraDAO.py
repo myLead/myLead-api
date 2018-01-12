@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
-from mylead import db
-from dbhelper import *
+from mylead           import db
+from dbhelper         import *
 
 class CompraDAO():
    

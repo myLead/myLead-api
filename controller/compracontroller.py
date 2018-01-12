@@ -7,11 +7,9 @@ class CompraController():
 
 
     def createComopra(self, compra):
-
         self.__compraDAO.create_compra(compra)
 
        
-
     # def delete_user(self, id):
 
     #     user = self.__userDAO.get_user_by_id(id)

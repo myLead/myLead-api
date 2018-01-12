@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
-from mylead import db
-from dbhelper import Plano
+from mylead           import db
+from dbhelper         import Plano
 
 class PlanoDAO():
 
@@ -8,8 +8,8 @@ class PlanoDAO():
     #     db.session.add(user)
     #     db.session.commit()
 
-    def getPlanoById(self, id):
 
+    def getPlanoById(self, id):
         plano = Plano.query.filter_id(id_plano = id).first()
         return plano
 
