@@ -1,4 +1,4 @@
-from flask                        import Flask, request, jsonify, session, g
+from flask                        import Flask, request, jsonify, session, g, render_template
 from dbhelper                     import *
 from flask_sqlalchemy             import SQLAlchemy
 from mylead                       import app, db
@@ -6,7 +6,7 @@ from controller.usuariocontroller import *
 from controller.compracontroller  import *
 from controller.csvcontroller import *
 from utils                        import Utils
-
+import os
 import hashlib
 
 userController   = UsuarioController()
@@ -143,34 +143,13 @@ def delete_user(id):
 
 @app.route('/upload', methods = ['POST'])
 def upload():
-    file = request.files['input.csv']
-    converter = utils.csvToJson(file)
-    id_usuario =int(self.getsession())
-    newCsv = CsvFile(id_usuario = id_usuario, csvjson = converter, csvblob = file.read())
-    upLoadFile = csvController.createBaseCsv(newCsv)
-
-
-@app.route('/upload2', methods=['POST'])
-def upload2():
-    file = request.files['input.csv']
-    converter = utils.csvToJson2(file)
-    id_usuario = int(self.getsession())
+    file = request.files['inputFile']
+    file_name = file.filename
+    file_path = os.path.join("TMP_DIR", file_name)
+    file.save(file_path)
+    csv_to_jspn = utils.csvToJson(file_path)
+    id_usuario =int(getsession())
     newCsv = CsvFile(id_usuario=id_usuario,
-                     csvjson=converter, csvblob=file.read())
+                     csvjson=csv_to_jspn, csvblob=file.read())
     upLoadFile = csvController.createBaseCsv(newCsv)
-    
-# stub procurar isso
-
-def upload_local_file(file):
-    csvfile = open('leads_empresa1.csv', 'r', encoding='utf-8')
-    save_file(csvfile)
-
-
-@app.route('/test', methods=['GET'])
-def save_file():
-    file = 'leads_empresa1.csv'
-    json_file = utils.csvToJson(file)
-
-    return jsonify (json_file)
-
-    #salvar no banco
+    return jsonify({'status': 'success', 'message': 'Upload completo', 'data': {}})
