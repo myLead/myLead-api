@@ -149,7 +149,7 @@ def upload():
     file.save(file_path)
     csv_to_jspn = utils.csvToJson(file_path)
     id_usuario =int(getsession())
-    newCsv = CsvFile(id_usuario=id_usuario,
+    newCsv = CsvFile(id_usuario=1,
                      csvjson=csv_to_jspn, csvblob=file.read())
     upLoadFile = csvController.createBaseCsv(newCsv)
     return jsonify({'status': 'success', 'message': 'Upload completo', 'data': {}})
