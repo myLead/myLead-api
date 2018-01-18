@@ -9,6 +9,8 @@ from utils                        import Utils
 import os
 import hashlib
 
+app.secret_key = os.urandom(24)
+
 userController   = UsuarioController()
 compraController = CompraController()
 csvController =  CsVController()
@@ -109,17 +111,19 @@ def login():
         user_data['id_usuario']    = user.id_usuario
         user_data['nome']          = user.nome
         user_data['email_usuario'] = user.email_usuario
-        session['user'] = str(user.id_usuario)
+        session['id_usuario'] = str(user.id_usuario)
+        print(session)
         return  jsonify({'status': 'success', "message": "Usuário Logado com Sucesso", 'data': user_data})
 
 
 @app.before_request
 def before_request():
     g.user = None
-    if 'user' in session:
-        g.user = session['user']
+    if 'id_usuario' in session:
+        g.user = session['id_usuario']
+        print('entrou')
 
-@app.route('/getsession', methods = ['GET'])
+
 def getsession():
     if 'user' in session:
         return session['user']
@@ -143,12 +147,13 @@ def delete_user(id):
 
 @app.route('/upload', methods = ['POST'])
 def upload():
+    print(session)
     file = request.files['inputFile']
     file_name = file.filename
     file_path = os.path.join("TMP_DIR", file_name)
     file.save(file_path)
     csv_to_jspn = utils.csvToJson(file_path)
-    id_usuario =int(getsession())
+    # id_usuario =str(session['user'])
     newCsv = CsvFile(id_usuario=1,
                      csvjson=csv_to_jspn, csvblob=file.read())
     upLoadFile = csvController.createBaseCsv(newCsv)
