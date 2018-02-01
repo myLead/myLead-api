@@ -111,24 +111,8 @@ def login():
         user_data['id_usuario']    = user.id_usuario
         user_data['nome']          = user.nome
         user_data['email_usuario'] = user.email_usuario
-        session['id_usuario'] = str(user.id_usuario)
-        print(session)
         return  jsonify({'status': 'success', "message": "Usuário Logado com Sucesso", 'data': user_data})
 
-
-@app.before_request
-def before_request():
-    g.user = None
-    if 'id_usuario' in session:
-        g.user = session['id_usuario']
-        print('entrou')
-
-
-def getsession():
-    if 'user' in session:
-        return session['user']
-
-    return 'Not logged in!'
 
 
 @app.route('/logout', methods=['GET'])
@@ -147,14 +131,69 @@ def delete_user(id):
 
 @app.route('/upload', methods = ['POST'])
 def upload():
-    print(session)
     file = request.files['inputFile']
     file_name = file.filename
     file_path = os.path.join("TMP_DIR", file_name)
     file.save(file_path)
     csv_to_jspn = utils.csvToJson(file_path)
-    # id_usuario =str(session['user'])
     newCsv = CsvFile(id_usuario=1,
                      csvjson=csv_to_jspn, csvblob=file.read())
     upLoadFile = csvController.createBaseCsv(newCsv)
     return jsonify({'status': 'success', 'message': 'Upload completo', 'data': {}})
+
+
+@app.route('/teste', methods=['POST' , 'GET'])
+def teste():
+    if request.method == 'POST':
+
+        data = request.get_json()
+
+        alimentar = Teste(valor1=data['valor2'], valor2=data[
+                        'valor2'], valor3=data['valor2'], valor4=data['valor2'])
+        db.session.add(alimentar)
+        db.session.commit()
+
+        return jsonify({'status': 'success', 'message': 'dados salvos completo', 'data': {}})
+
+    else:
+        datas = Teste.query.all()
+
+        if datas == None:
+
+            return jsonify({'status': 'error', 'message': 'Sem ocorrencias', 'data': {}})
+
+        else:
+            output = []
+
+            for data in datas:
+
+                teste_data = {}
+                teste_data['id_teste'] = data.idteste
+                teste_data['valor1'] = data.valor1
+                teste_data['valor2'] = data.valor2
+                teste_data['valor3'] = data.valor3
+                teste_data['valor4'] = data.valor4
+                
+
+                output.append(teste_data)
+
+            return jsonify({'status': 'success', 'message': 'lista de teste', 'data': output})
+
+
+@app.route('/teste/<id>', methods=['GET'])
+def teste_id(id):
+    data = Teste.query.filter_by(idteste=id).first()
+
+    if data == None:
+        return jsonify({'status': 'error', 'message': 'Sem ocorrencias', 'data': {}})
+    else:
+
+        teste_data = {}
+        teste_data['id_teste'] = data.idteste
+        teste_data['valor1'] = data.valor1
+        teste_data['valor2'] = data.valor2
+        teste_data['valor3'] = data.valor3
+        teste_data['valor4'] = data.valor4
+
+        return jsonify({'status': 'success', 'message': 'Teste encontrado', 'data': teste_data})
+""

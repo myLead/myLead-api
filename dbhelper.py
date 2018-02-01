@@ -41,6 +41,14 @@ class CsvFile(db.Model):
     create_at = db.Column(db.DateTime(), index=True, default=datetime.now)
 
 
+class Teste(db.Model):
+    __tablename__ = 'teste'
+    idteste= db.Column(db.Integer, primary_key=True)
+    valor1 = db.Column(db.INT(), nullable=True)
+    valor2 = db.Column(db.INT(), nullable=True)
+    valor3 = db.Column(db.INT(), nullable=True)
+    valor4 = db.Column(db.INT(), nullable=True)
+
 
 # class Pessoa(db.Model):
 #     __tablename__    = 'Pessoa'
