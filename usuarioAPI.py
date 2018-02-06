@@ -115,11 +115,6 @@ def login():
 
 
 
-@app.route('/logout', methods=['GET'])
-def logout():
-    session.pop('user', None)
-    return 'Logout!'
-
 @app.route('/user/<id>', methods = ['DELETE'])
 def delete_user(id):
     open_result = userController.delete_user(id)
@@ -196,4 +191,3 @@ def teste_id(id):
         teste_data['valor4'] = data.valor4
 
         return jsonify({'status': 'success', 'message': 'Teste encontrado', 'data': teste_data})
-""
