@@ -41,13 +41,17 @@ class CsvFile(db.Model):
     create_at = db.Column(db.DateTime(), index=True, default=datetime.now)
 
 
-class Teste(db.Model):
-    __tablename__ = 'teste'
-    idteste= db.Column(db.Integer, primary_key=True)
-    valor1 = db.Column(db.INT(), nullable=True)
-    valor2 = db.Column(db.INT(), nullable=True)
-    valor3 = db.Column(db.INT(), nullable=True)
-    valor4 = db.Column(db.INT(), nullable=True)
+class Resultados(db.Model):
+    __tablename__ = 'resultados'
+    id_resultado= db.Column(db.Integer, primary_key=True)
+    Usuario = db.Column(db.TEXT(), nullable=True)
+    Qtde_Clientes = db.Column(db.INT(), nullable=True)
+    Qtde_Leads = db.Column(db.INT(), nullable=True)
+    Qtde_Superleads = db.Column(db.INT(), nullable=True)
+    Media_Scoring_Superleads = db.Column(db.TEXT(), nullable=True)
+    Media_Interações_Superleads = db.Column(db.TEXT(), nullable=True)
+    Scoring_Superleads = db.Column(db.TEXT(), nullable=True)
+    Interações_Superleads = db.Column(db.TEXT(), nullable=True)
 
 
 # class Pessoa(db.Model):

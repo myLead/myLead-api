@@ -13,10 +13,10 @@ hostname = 'jlg7sfncbhyvga14.cbetxkdyhwsb.us-east-1.rds.amazonaws.com'
 port = '3306'
 database = 's6h9a1esmvlviuvp'
 # username = 'root'
-# password = '1234'
+# password = 'root'
 # hostname = 'localhost'
 # port = '3306'
-# database = 'teste'
+# database = 'myleaddb'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://'+username+':'+password+'@'+hostname+':'+port+'/'+database
 db = SQLAlchemy(app)

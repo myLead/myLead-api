@@ -137,57 +137,65 @@ def upload():
     return jsonify({'status': 'success', 'message': 'Upload completo', 'data': {}})
 
 
-@app.route('/teste', methods=['POST' , 'GET'])
+@app.route('/resultados', methods=['POST' , 'GET'])
 def teste():
     if request.method == 'POST':
 
         data = request.get_json()
 
-        alimentar = Teste(valor1=data['valor2'], valor2=data[
-                        'valor2'], valor3=data['valor2'], valor4=data['valor2'])
+        alimentar = Resultados(Usuario=data['Usuario'], Qtde_Clientes=data[
+            'Qtde_Clientes'], Qtde_Leads=data['Qtde_Leads'], Qtde_Superleads=data['Qtde_Superleads'],
+            Media_Scoring_Superleads=data['Media_Scoring_Superleads'], 
+            Media_Interações_Superleads = data['Media_Interações_Superleads'],
+                                             Scoring_Superleads = data['Scoring_Superleads'], Interações_Superleads=data['Interações_Superleads']
+            )
         db.session.add(alimentar)
         db.session.commit()
 
         return jsonify({'status': 'success', 'message': 'dados salvos completo', 'data': {}})
 
-    else:
-        datas = Teste.query.all()
+#     else:
+#         datas = Resultados.query.all()
 
-        if datas == None:
+#         if datas == None:
 
-            return jsonify({'status': 'error', 'message': 'Sem ocorrencias', 'data': {}})
+#             return jsonify({'status': 'error', 'message': 'Sem ocorrencias', 'data': {}})
 
-        else:
-            output = []
+#         else:
+#             output = []
 
-            for data in datas:
+#             for data in datas:
 
-                teste_data = {}
-                teste_data['id_teste'] = data.idteste
-                teste_data['valor1'] = data.valor1
-                teste_data['valor2'] = data.valor2
-                teste_data['valor3'] = data.valor3
-                teste_data['valor4'] = data.valor4
+#                 teste_data = {}
+#                 teste_data['id_teste'] = data.idteste
+#                 teste_data['valor1'] = data.valor1
+#                 teste_data['valor2'] = data.valor2
+#                 teste_data['valor3'] = data.valor3
+#                 teste_data['valor4'] = data.valor4
                 
 
-                output.append(teste_data)
+#                 output.append(teste_data)
 
-            return jsonify({'status': 'success', 'message': 'lista de teste', 'data': output})
+#             return jsonify({'status': 'success', 'message': 'lista de teste', 'data': output})
 
 
-@app.route('/teste/<id>', methods=['GET'])
+@app.route('/resultado/<id>', methods=['GET'])
 def teste_id(id):
-    data = Teste.query.filter_by(idteste=id).first()
+    data = Resultados.query.filter_by(id_resultado=id).first()
 
     if data == None:
         return jsonify({'status': 'error', 'message': 'Sem ocorrencias', 'data': {}})
     else:
 
-        teste_data = {}
-        teste_data['id_teste'] = data.idteste
-        teste_data['valor1'] = data.valor1
-        teste_data['valor2'] = data.valor2
-        teste_data['valor3'] = data.valor3
-        teste_data['valor4'] = data.valor4
+        resultado_data = {}
+        resultado_data['id_resultado'] = data.id_resultado
+        resultado_data['Usuario'] = data.Usuario
+        resultado_data['Qtde_Clientes'] = data.Qtde_Clientes
+        resultado_data['Qtde_Leads'] = data.Qtde_Leads
+        resultado_data['Qtde_Superleads'] = data.Qtde_Superleads
+        resultado_data['Media_Scoring_Superleads'] = data.Media_Scoring_Superleads
+        resultado_data['Media_Interações_Superleads'] = data.Media_Interações_Superleads
+        resultado_data['Scoring_Superleads'] = data.Scoring_Superleads
+        resultado_data['Interações_Superleads'] = data.Interações_Superleads
 
-        return jsonify({'status': 'success', 'message': 'Teste encontrado', 'data': teste_data})
+        return jsonify({'status': 'success', 'message': 'Teste encontrado', 'data': resultado_data})
