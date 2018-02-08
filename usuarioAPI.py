@@ -146,8 +146,8 @@ def teste():
         alimentar = Resultados(Usuario=data['Usuario'], Qtde_Clientes=data[
             'Qtde_Clientes'], Qtde_Leads=data['Qtde_Leads'], Qtde_Superleads=data['Qtde_Superleads'],
             Media_Scoring_Superleads=data['Media_Scoring_Superleads'], 
-            Media_Interações_Superleads = data['Media_Interações_Superleads'],
-                                             Scoring_Superleads = data['Scoring_Superleads'], Interações_Superleads=data['Interações_Superleads']
+            Media_Interacoes_Superleads = data['Media_Interacoes_Superleads'],
+                                             Scoring_Superleads = data['Scoring_Superleads'], Interacoes_Superleads=data['Interacoes_Superleads']
             )
         db.session.add(alimentar)
         db.session.commit()
@@ -194,8 +194,8 @@ def teste_id(id):
         resultado_data['Qtde_Leads'] = data.Qtde_Leads
         resultado_data['Qtde_Superleads'] = data.Qtde_Superleads
         resultado_data['Media_Scoring_Superleads'] = data.Media_Scoring_Superleads
-        resultado_data['Media_Interações_Superleads'] = data.Media_Interações_Superleads
+        resultado_data['Media_Interacoes_Superleads'] = data.Media_Interacoes_Superleads
         resultado_data['Scoring_Superleads'] = data.Scoring_Superleads
-        resultado_data['Interações_Superleads'] = data.Interações_Superleads
+        resultado_data['Interacoes_Superleads'] = data.Interacoes_Superleads
 
         return jsonify({'status': 'success', 'message': 'Teste encontrado', 'data': resultado_data})

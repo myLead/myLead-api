@@ -49,9 +49,9 @@ class Resultados(db.Model):
     Qtde_Leads = db.Column(db.INT(), nullable=True)
     Qtde_Superleads = db.Column(db.INT(), nullable=True)
     Media_Scoring_Superleads = db.Column(db.TEXT(), nullable=True)
-    Media_Interações_Superleads = db.Column(db.TEXT(), nullable=True)
+    Media_Interacoes_Superleads = db.Column(db.TEXT(), nullable=True)
     Scoring_Superleads = db.Column(db.TEXT(), nullable=True)
-    Interações_Superleads = db.Column(db.TEXT(), nullable=True)
+    Interacoes_Superleads = db.Column(db.TEXT(), nullable=True)
 
 
 # class Pessoa(db.Model):
